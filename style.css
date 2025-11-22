@@ -398,6 +398,18 @@ footer {
     color: var(--text-secondary);
 }
 
+.footer-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
 /* レスポンシブデザイン */
 @media (max-width: 480px) {
     body {
