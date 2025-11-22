@@ -31,6 +31,10 @@ const intervalValue = document.getElementById('interval-value');
 const repeatStatus = document.getElementById('repeat-status');
 const repeatStatusText = document.getElementById('repeat-status-text');
 
+// 共有関連DOM要素
+const shareBtn = document.getElementById('share-btn');
+const shareStatus = document.getElementById('share-status');
+
 let deferredPrompt;
 
 // リピート状態管理
@@ -46,6 +50,7 @@ function init() {
     checkVibrationSupport();
     setupEventListeners();
     setupPWA();
+    loadFromURL(); // URLパラメータから設定を読み込み
 }
 
 // バイブレーションサポート確認
@@ -128,6 +133,23 @@ function setupEventListeners() {
     // リピート間隔スライダー
     repeatInterval.addEventListener('input', (e) => {
         intervalValue.textContent = `${e.target.value}ms`;
+    });
+
+    // 共有ボタン
+    shareBtn.addEventListener('click', async () => {
+        const success = await copyShareURL();
+        if (success) {
+            // 成功メッセージを表示
+            shareStatus.style.display = 'flex';
+            addVibratingAnimation(shareBtn);
+
+            // 3秒後に非表示
+            setTimeout(() => {
+                shareStatus.style.display = 'none';
+            }, 3000);
+        } else {
+            alert('URLのコピーに失敗しました。ブラウザがクリップボードAPIをサポートしていない可能性があります。');
+        }
     });
 }
 
@@ -314,6 +336,136 @@ function setupPWA() {
     // スタンドアロンモードで起動したかチェック
     if (window.matchMedia('(display-mode: standalone)').matches) {
         console.log('Running in standalone mode');
+    }
+}
+
+// URLパラメータから設定を読み込み
+function loadFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // プリセットパターン
+    if (urlParams.has('preset')) {
+        const preset = urlParams.get('preset');
+        if (patterns[preset]) {
+            // プリセットが存在する場合は何もしない（ボタンから実行してもらう）
+            console.log('Preset pattern from URL:', preset);
+        }
+    }
+
+    // カスタムパターン
+    if (urlParams.has('pattern')) {
+        const pattern = urlParams.get('pattern');
+        patternInput.value = pattern;
+        console.log('Custom pattern from URL:', pattern);
+    }
+
+    // カスタム振動時間
+    if (urlParams.has('duration')) {
+        const duration = parseInt(urlParams.get('duration'));
+        if (!isNaN(duration) && duration >= 10 && duration <= 1000) {
+            durationSlider.value = duration;
+            durationValue.textContent = `${duration}ms`;
+            console.log('Duration from URL:', duration);
+        }
+    }
+
+    // リピート設定
+    if (urlParams.has('enabled') && urlParams.get('enabled') === '1') {
+        repeatEnabled.checked = true;
+        repeatOptions.style.display = 'block';
+
+        // リピート回数
+        if (urlParams.has('repeat')) {
+            const repeat = urlParams.get('repeat');
+            if (repeat === 'infinite' || (!isNaN(parseInt(repeat)) && parseInt(repeat) >= 2 && parseInt(repeat) <= 10)) {
+                repeatCount.value = repeat;
+                console.log('Repeat count from URL:', repeat);
+            }
+        }
+
+        // ループ間隔
+        if (urlParams.has('interval')) {
+            const interval = parseInt(urlParams.get('interval'));
+            if (!isNaN(interval) && interval >= 0 && interval <= 2000) {
+                repeatInterval.value = interval;
+                intervalValue.textContent = `${interval}ms`;
+                console.log('Interval from URL:', interval);
+            }
+        }
+    }
+
+    // 自動実行フラグ（オプション）
+    if (urlParams.has('auto') && urlParams.get('auto') === '1') {
+        // 少し遅延させてから自動実行
+        setTimeout(() => {
+            if (urlParams.has('preset')) {
+                const preset = urlParams.get('preset');
+                if (patterns[preset]) {
+                    executeVibration(patterns[preset]);
+                }
+            } else if (urlParams.has('pattern')) {
+                const pattern = parsePattern(patternInput.value);
+                if (pattern) {
+                    executeVibration(pattern);
+                }
+            } else if (urlParams.has('duration')) {
+                const duration = parseInt(durationSlider.value);
+                executeVibration([duration]);
+            }
+        }, 500);
+    }
+}
+
+// 現在の設定からURLを生成
+function generateShareURL() {
+    const baseURL = window.location.origin + window.location.pathname;
+    const params = new URLSearchParams();
+
+    // 現在アクティブな設定を判断
+    // パターン入力がデフォルトでない場合
+    if (patternInput.value && patternInput.value !== '100,50,100,50,200') {
+        params.set('pattern', patternInput.value);
+    }
+    // カスタム振動時間がデフォルトでない場合
+    else if (durationSlider.value !== '200') {
+        params.set('duration', durationSlider.value);
+    }
+
+    // リピート設定
+    if (repeatEnabled.checked) {
+        params.set('enabled', '1');
+        params.set('repeat', repeatCount.value);
+        params.set('interval', repeatInterval.value);
+    }
+
+    const url = params.toString() ? `${baseURL}?${params.toString()}` : baseURL;
+    return url;
+}
+
+// URLをクリップボードにコピー
+async function copyShareURL() {
+    const url = generateShareURL();
+
+    try {
+        await navigator.clipboard.writeText(url);
+        return true;
+    } catch (err) {
+        console.error('Failed to copy:', err);
+        // フォールバック: 古いブラウザ用
+        const textarea = document.createElement('textarea');
+        textarea.value = url;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            return true;
+        } catch (err2) {
+            document.body.removeChild(textarea);
+            return false;
+        }
     }
 }
 
