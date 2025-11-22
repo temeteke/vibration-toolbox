@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="description" content="Android端末でバイブレーションを制御するPWAアプリ">
+    <title>バイブレーション制御ツール</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon-192.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📳 バイブレーション制御</h1>
+            <p class="subtitle">Android端末のバイブレーションをコントロール</p>
+        </header>
+
+        <main>
+            <!-- サポート状況表示 -->
+            <div id="support-status" class="status-card">
+                <div class="status-icon">⏳</div>
+                <p id="status-text">チェック中...</p>
+            </div>
+
+            <!-- プリセットパターン -->
+            <section class="section">
+                <h2>プリセットパターン</h2>
+                <div class="button-grid">
+                    <button class="vibrate-btn" data-pattern="short">
+                        <span class="btn-icon">📱</span>
+                        <span class="btn-text">短い振動</span>
+                        <span class="btn-desc">100ms</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="medium">
+                        <span class="btn-icon">📳</span>
+                        <span class="btn-text">中程度の振動</span>
+                        <span class="btn-desc">200ms</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="long">
+                        <span class="btn-icon">📲</span>
+                        <span class="btn-text">長い振動</span>
+                        <span class="btn-desc">500ms</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="double">
+                        <span class="btn-icon">🔄</span>
+                        <span class="btn-text">ダブルタップ</span>
+                        <span class="btn-desc">100ms × 2</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="triple">
+                        <span class="btn-icon">🔃</span>
+                        <span class="btn-text">トリプルタップ</span>
+                        <span class="btn-desc">100ms × 3</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="pulse">
+                        <span class="btn-icon">💓</span>
+                        <span class="btn-text">パルス</span>
+                        <span class="btn-desc">リズミカル</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="sos">
+                        <span class="btn-icon">🆘</span>
+                        <span class="btn-text">SOS</span>
+                        <span class="btn-desc">... --- ...</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="alarm">
+                        <span class="btn-icon">⏰</span>
+                        <span class="btn-text">アラーム</span>
+                        <span class="btn-desc">強い振動</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- カスタムパターン -->
+            <section class="section">
+                <h2>カスタム設定</h2>
+                <div class="custom-control">
+                    <label for="duration">振動時間（ミリ秒）</label>
+                    <div class="slider-container">
+                        <input type="range" id="duration" min="10" max="1000" value="200" step="10">
+                        <span id="duration-value">200ms</span>
+                    </div>
+                </div>
+                <button id="custom-vibrate" class="vibrate-btn primary">
+                    <span class="btn-icon">⚡</span>
+                    <span class="btn-text">カスタム振動を実行</span>
+                </button>
+            </section>
+
+            <!-- パターンエディタ -->
+            <section class="section">
+                <h2>パターンエディタ</h2>
+                <p class="help-text">カンマ区切りで振動と休止のパターンを入力（例: 100,50,100,50,200）</p>
+                <div class="pattern-editor">
+                    <input type="text" id="pattern-input" placeholder="100,50,100,50,200" value="100,50,100,50,200">
+                    <button id="pattern-vibrate" class="vibrate-btn">
+                        <span class="btn-icon">🎵</span>
+                        <span class="btn-text">パターンを実行</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 停止ボタン -->
+            <section class="section">
+                <button id="stop-vibrate" class="stop-btn">
+                    <span class="btn-icon">⏹️</span>
+                    <span class="btn-text">振動を停止</span>
+                </button>
+            </section>
+
+            <!-- インストールボタン（PWA） -->
+            <div id="install-container" class="install-container" style="display: none;">
+                <button id="install-btn" class="install-btn">
+                    <span class="btn-icon">📥</span>
+                    <span class="btn-text">アプリをインストール</span>
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p class="footer-text">PWA対応 | オフラインでも動作します</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
