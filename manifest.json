@@ -1,6 +1,6 @@
 {
-  "name": "バイブレーション制御ツール",
-  "short_name": "バイブツール",
+  "name": "Vibration Toolbox",
+  "short_name": "Vibration Toolbox",
   "description": "Android端末でバイブレーションを制御するPWAアプリ",
   "start_url": "./index.html",
   "display": "standalone",
