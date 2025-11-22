@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vibration-toolbox-v3';
+const CACHE_NAME = 'vibration-toolbox-v4';
 const urlsToCache = [
     '/',
     '/index.html',
