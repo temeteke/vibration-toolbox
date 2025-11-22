@@ -374,6 +374,120 @@ footer {
     }
 }
 
+/* リピート設定 */
+.repeat-controls {
+    background: var(--bg-color);
+    border-radius: 1rem;
+    padding: 1.25rem;
+}
+
+.toggle-container {
+    margin-bottom: 1rem;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+    width: 44px;
+    height: 24px;
+    appearance: none;
+    background: var(--border-color);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.toggle-label input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+    box-shadow: var(--shadow);
+}
+
+.toggle-label input[type="checkbox"]:checked {
+    background: var(--primary-color);
+}
+
+.toggle-label input[type="checkbox"]:checked::before {
+    transform: translateX(20px);
+}
+
+.toggle-text {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.repeat-options {
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.repeat-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    margin-bottom: 1rem;
+}
+
+.repeat-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.repeat-select option {
+    padding: 0.5rem;
+}
+
+.repeat-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #eff6ff;
+    border: 2px solid #3b82f6;
+    border-radius: 0.75rem;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3b82f6;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+#repeat-status-text {
+    font-weight: 600;
+    color: #1e40af;
+    font-size: 0.95rem;
+}
+
 /* アニメーション */
 @keyframes pulse {
     0%, 100% {
@@ -386,4 +500,24 @@ footer {
 
 .vibrating {
     animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
 }
