@@ -13,8 +13,15 @@
 <body>
     <div class="container">
         <header>
-            <h1>📳 Vibration Toolbox</h1>
-            <p class="subtitle">Android端末のバイブレーションをコントロール</p>
+            <div class="header-content">
+                <div>
+                    <h1>📳 Vibration Toolbox</h1>
+                    <p class="subtitle">Android端末のバイブレーションをコントロール</p>
+                </div>
+                <button id="theme-toggle" class="theme-toggle" aria-label="テーマ切り替え">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
         </header>
 
         <main>
@@ -23,6 +30,12 @@
                 <div class="status-icon">⏳</div>
                 <p id="status-text">チェック中...</p>
             </div>
+
+            <!-- お気に入りプリセット -->
+            <section class="section" id="favorites-section" style="display: none;">
+                <h2>⭐ お気に入りパターン</h2>
+                <div id="favorites-grid" class="button-grid"></div>
+            </section>
 
             <!-- プリセットパターン -->
             <section class="section">
@@ -68,6 +81,26 @@
                         <span class="btn-text">アラーム</span>
                         <span class="btn-desc">強い振動</span>
                     </button>
+                    <button class="vibrate-btn" data-pattern="ringtone">
+                        <span class="btn-icon">📞</span>
+                        <span class="btn-text">着信音</span>
+                        <span class="btn-desc">長-短-短-長</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="heartbeat">
+                        <span class="btn-icon">💗</span>
+                        <span class="btn-text">ハートビート</span>
+                        <span class="btn-desc">心拍リズム</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="emergency">
+                        <span class="btn-icon">🚨</span>
+                        <span class="btn-text">緊急アラート</span>
+                        <span class="btn-desc">強弱繰り返し</span>
+                    </button>
+                    <button class="vibrate-btn" data-pattern="notification">
+                        <span class="btn-icon">💬</span>
+                        <span class="btn-text">通知</span>
+                        <span class="btn-desc">軽いタップ</span>
+                    </button>
                 </div>
             </section>
 
@@ -93,11 +126,32 @@
                 <p class="help-text">カンマ区切りで振動と休止のパターンを入力（例: 100,50,100,50,200）</p>
                 <div class="pattern-editor">
                     <input type="text" id="pattern-input" placeholder="100,50,100,50,200" value="100,50,100,50,200">
-                    <button id="pattern-vibrate" class="vibrate-btn">
-                        <span class="btn-icon">🎵</span>
-                        <span class="btn-text">パターンを実行</span>
-                    </button>
+
+                    <!-- パターンビジュアライザー -->
+                    <div id="pattern-visualizer" class="pattern-visualizer">
+                        <div class="visualizer-timeline"></div>
+                        <div class="visualizer-info">
+                            <span id="total-duration">総時間: 400ms</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-actions">
+                        <button id="pattern-vibrate" class="vibrate-btn">
+                            <span class="btn-icon">🎵</span>
+                            <span class="btn-text">パターンを実行</span>
+                        </button>
+                        <button id="save-pattern" class="save-pattern-btn">
+                            <span class="btn-icon">💾</span>
+                            <span class="btn-text">パターンを保存</span>
+                        </button>
+                    </div>
                 </div>
+            </section>
+
+            <!-- パターンライブラリ -->
+            <section class="section" id="library-section" style="display: none;">
+                <h2>保存済みパターン</h2>
+                <div id="saved-patterns" class="saved-patterns"></div>
             </section>
 
             <!-- リピート/ループ設定 -->

@@ -21,12 +21,33 @@
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
+[data-theme="dark"] {
+    --primary-color: #818cf8;
+    --primary-dark: #6366f1;
+    --primary-light: #a5b4fc;
+    --success-color: #34d399;
+    --error-color: #f87171;
+    --warning-color: #fbbf24;
+    --bg-color: #1e293b;
+    --card-bg: #0f172a;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     padding: 1rem;
     color: var(--text-primary);
+    transition: background 0.3s ease;
+}
+
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
 }
 
 .container {
@@ -43,6 +64,17 @@ header {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     padding: 2rem 1.5rem;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-content > div {
+    flex: 1;
     text-align: center;
 }
 
@@ -55,6 +87,36 @@ header h1 {
 .subtitle {
     font-size: 0.95rem;
     opacity: 0.9;
+}
+
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: rotate(20deg) scale(1.1);
+}
+
+.theme-toggle:active {
+    transform: rotate(20deg) scale(0.95);
+}
+
+.theme-icon {
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
 }
 
 /* メインコンテンツ */
@@ -99,6 +161,10 @@ main {
     border-color: var(--success-color);
 }
 
+[data-theme="dark"] .status-card.supported {
+    background: #064e3b;
+}
+
 .status-card.supported .status-icon {
     color: var(--success-color);
 }
@@ -110,6 +176,10 @@ main {
 .status-card.not-supported {
     background: #fef2f2;
     border-color: var(--error-color);
+}
+
+[data-theme="dark"] .status-card.not-supported {
+    background: #7f1d1d;
 }
 
 .status-card.not-supported .status-icon {
@@ -186,6 +256,26 @@ main {
     color: rgba(255, 255, 255, 0.8);
 }
 
+.vibrate-btn.custom-preset {
+    background: linear-gradient(135deg, var(--warning-color), #ea580c);
+    border-color: var(--warning-color);
+    color: white;
+    cursor: grab;
+}
+
+.vibrate-btn.custom-preset:active {
+    cursor: grabbing;
+}
+
+.vibrate-btn.custom-preset:hover {
+    background: linear-gradient(135deg, #ea580c, #c2410c);
+    border-color: #ea580c;
+}
+
+.vibrate-btn.custom-preset .btn-desc {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 /* カスタムコントロール */
 .custom-control {
     margin-bottom: 1rem;
@@ -255,6 +345,12 @@ input[type="range"]::-moz-range-thumb {
     gap: 0.75rem;
 }
 
+.pattern-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
 #pattern-input {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -263,11 +359,205 @@ input[type="range"]::-moz-range-thumb {
     font-size: 1rem;
     font-family: 'Courier New', monospace;
     transition: border-color 0.2s;
+    background: var(--card-bg);
+    color: var(--text-primary);
 }
 
 #pattern-input:focus {
     outline: none;
     border-color: var(--primary-color);
+}
+
+/* パターンビジュアライザー */
+.pattern-visualizer {
+    background: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin: 0.75rem 0;
+}
+
+.visualizer-timeline {
+    display: flex;
+    gap: 2px;
+    min-height: 60px;
+    align-items: center;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+}
+
+.visualizer-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    position: relative;
+    min-width: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: white;
+    font-weight: 600;
+}
+
+.visualizer-bar.vibrate {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    height: 50px;
+}
+
+.visualizer-bar.pause {
+    background: var(--border-color);
+    height: 20px;
+}
+
+.visualizer-info {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+#total-duration {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* 保存ボタン */
+.save-pattern-btn {
+    background: var(--success-color);
+    border: 2px solid var(--success-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: inherit;
+    color: white;
+    font-weight: 600;
+}
+
+.save-pattern-btn:hover {
+    background: #059669;
+    border-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.save-pattern-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* パターンライブラリ */
+.saved-patterns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.saved-pattern-item {
+    background: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    transition: all 0.2s;
+}
+
+.saved-pattern-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow);
+}
+
+.pattern-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.pattern-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.pattern-favorite {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 0;
+}
+
+.pattern-favorite:hover {
+    transform: scale(1.2);
+}
+
+.pattern-value {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    background: var(--card-bg);
+    border-radius: 0.5rem;
+    overflow-x: auto;
+}
+
+.pattern-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.pattern-btn {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 2px solid var(--border-color);
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.pattern-btn.play {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.pattern-btn.play:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.pattern-btn.edit {
+    border-color: var(--warning-color);
+    color: var(--warning-color);
+}
+
+.pattern-btn.edit:hover {
+    background: var(--warning-color);
+    color: white;
+}
+
+.pattern-btn.delete {
+    border-color: var(--error-color);
+    color: var(--error-color);
+}
+
+.pattern-btn.delete:hover {
+    background: var(--error-color);
+    color: white;
 }
 
 /* 停止ボタン */
@@ -505,7 +795,8 @@ footer {
     border-radius: 0.75rem;
     font-size: 1rem;
     font-family: inherit;
-    background: white;
+    background: var(--card-bg);
+    color: var(--text-primary);
     cursor: pointer;
     transition: border-color 0.2s;
     margin-bottom: 1rem;
