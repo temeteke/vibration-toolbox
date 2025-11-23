@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- グラデーション定義 -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b8eff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="512" height="512" fill="url(#bgGradient)" rx="0"/>
+
+  <!-- スマートフォン本体 -->
+  <g id="smartphone">
+    <!-- 本体の影 -->
+    <rect x="166" y="70" width="180" height="372" rx="24" fill="#000000" opacity="0.12" transform="translate(3, 3)"/>
+
+    <!-- 本体 -->
+    <rect x="166" y="70" width="180" height="372" rx="24" fill="#ffffff" stroke="#d1d5db" stroke-width="4"/>
+
+    <!-- 画面 -->
+    <rect x="178" y="95" width="156" height="322" rx="14" fill="#e8eaf6"/>
+
+    <!-- スピーカー -->
+    <ellipse cx="256" cy="88" rx="28" ry="4" fill="#9e9e9e"/>
+
+    <!-- ホームボタン/指紋センサー -->
+    <circle cx="256" cy="425" r="10" fill="#f5f5f5" stroke="#d1d5db" stroke-width="2"/>
+  </g>
+
+  <!-- 左側の振動波 -->
+  <g id="leftWaves" stroke="#ffffff" fill="none" stroke-linecap="round">
+    <!-- 波1（内側） -->
+    <path d="M 135 216 Q 115 256 135 296" stroke-width="8" opacity="1"/>
+    <!-- 波2（中間） -->
+    <path d="M 100 186 Q 70 256 100 326" stroke-width="7" opacity="0.75"/>
+    <!-- 波3（外側） -->
+    <path d="M 65 156 Q 25 256 65 356" stroke-width="6" opacity="0.5"/>
+  </g>
+
+  <!-- 右側の振動波 -->
+  <g id="rightWaves" stroke="#ffffff" fill="none" stroke-linecap="round">
+    <!-- 波1（内側） -->
+    <path d="M 377 216 Q 397 256 377 296" stroke-width="8" opacity="1"/>
+    <!-- 波2（中間） -->
+    <path d="M 412 186 Q 442 256 412 326" stroke-width="7" opacity="0.75"/>
+    <!-- 波3（外側） -->
+    <path d="M 447 156 Q 487 256 447 356" stroke-width="6" opacity="0.5"/>
+  </g>
+</svg>

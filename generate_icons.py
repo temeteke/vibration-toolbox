@@ -1,48 +1,40 @@
 #!/usr/bin/env python3
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 import os
 
-def create_icon(size, filename):
-    # 背景色（紫のグラデーション風）
-    img = Image.new('RGB', (size, size), color='#6366f1')
-    draw = ImageDraw.Draw(img)
+def convert_svg_to_png(svg_file, png_file, size):
+    """SVGファイルをPNGに変換（cairosvgを使用）"""
+    try:
+        import cairosvg
+        cairosvg.svg2png(
+            url=svg_file,
+            write_to=png_file,
+            output_width=size,
+            output_height=size
+        )
+        print(f'Created {png_file} ({size}x{size}) from SVG')
+        return True
+    except ImportError:
+        print('cairosvg not found, trying alternative method...')
+        return False
 
-    # 円形の背景を描画
-    margin = size // 10
-    draw.ellipse([margin, margin, size - margin, size - margin],
-                 fill='#6366f1', outline='#ffffff', width=size // 40)
+def create_png_from_svg():
+    """SVGからPNGアイコンを生成"""
+    svg_file = 'icon.svg'
 
-    # 振動マークを描画（波線のような形）
-    center_x = size // 2
-    center_y = size // 2
-    wave_size = size // 3
+    if not os.path.exists(svg_file):
+        print(f'Error: {svg_file} not found!')
+        return
 
-    # 3つの波線を描画
-    line_width = max(size // 30, 4)
+    # cairosvgで変換を試行
+    success_192 = convert_svg_to_png(svg_file, 'icon-192.png', 192)
+    success_512 = convert_svg_to_png(svg_file, 'icon-512.png', 512)
 
-    # 左側の波線
-    x1 = center_x - wave_size
-    draw.arc([x1 - wave_size // 2, center_y - wave_size,
-              x1 + wave_size // 2, center_y + wave_size],
-             start=270, end=90, fill='#ffffff', width=line_width)
-
-    # 中央の波線
-    draw.arc([center_x - wave_size // 2, center_y - wave_size,
-              center_x + wave_size // 2, center_y + wave_size],
-             start=270, end=90, fill='#ffffff', width=line_width)
-
-    # 右側の波線
-    x2 = center_x + wave_size
-    draw.arc([x2 - wave_size // 2, center_y - wave_size,
-              x2 + wave_size // 2, center_y + wave_size],
-             start=270, end=90, fill='#ffffff', width=line_width)
-
-    # 保存
-    img.save(filename, 'PNG')
-    print(f'Created {filename} ({size}x{size})')
+    if success_192 and success_512:
+        print('Icons created successfully from SVG!')
+    else:
+        print('Please install cairosvg: pip install cairosvg')
 
 # アイコンを作成
-create_icon(192, 'icon-192.png')
-create_icon(512, 'icon-512.png')
-
-print('Icons created successfully!')
+if __name__ == '__main__':
+    create_png_from_svg()
