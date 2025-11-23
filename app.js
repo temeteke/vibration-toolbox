@@ -25,8 +25,6 @@ const patternVibrateBtn = document.getElementById('pattern-vibrate');
 const stopBtn = document.getElementById('stop-vibrate');
 const installContainer = document.getElementById('install-container');
 const installBtn = document.getElementById('install-btn');
-const themeToggle = document.getElementById('theme-toggle');
-const themeIcon = document.querySelector('.theme-icon');
 const visualizerTimeline = document.querySelector('.visualizer-timeline');
 const totalDuration = document.getElementById('total-duration');
 const savePatternBtn = document.getElementById('save-pattern');
@@ -60,7 +58,6 @@ let repeatState = {
 
 // 初期化
 function init() {
-    initTheme();
     checkVibrationSupport();
     setupEventListeners();
     setupPWA();
@@ -171,12 +168,6 @@ function setupEventListeners() {
         } else {
             alert('URLのコピーに失敗しました。ブラウザがクリップボードAPIをサポートしていない可能性があります。');
         }
-    });
-
-    // テーマ切り替えボタン
-    themeToggle.addEventListener('click', () => {
-        toggleTheme();
-        addVibratingAnimation(themeToggle);
     });
 
     // パターン保存ボタン
@@ -853,43 +844,4 @@ function updateVisualizer() {
 
         visualizerTimeline.appendChild(bar);
     });
-}
-
-// テーマ関連の機能
-function initTheme() {
-    // localStorageからテーマを読み込む
-    const savedTheme = localStorage.getItem('theme');
-
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        // システム設定を検出
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setTheme(prefersDark ? 'dark' : 'light');
-    }
-
-    // システムのテーマ変更を監視
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        // ユーザーが手動で設定していない場合のみ自動切り替え
-        if (!localStorage.getItem('theme')) {
-            setTheme(e.matches ? 'dark' : 'light');
-        }
-    });
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-}
-
-function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    updateThemeIcon(theme);
-    console.log('Theme set to:', theme);
-}
-
-function updateThemeIcon(theme) {
-    themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
 }
