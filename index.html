@@ -97,59 +97,10 @@
                 </div>
             </section>
 
-            <!-- カスタムパターン -->
-            <section class="section">
-                <h2>カスタム設定</h2>
-                <div class="custom-control">
-                    <label for="duration">振動時間（ミリ秒）</label>
-                    <div class="slider-container">
-                        <input type="range" id="duration" min="10" max="1000" value="200" step="10">
-                        <span id="duration-value">200ms</span>
-                    </div>
-                </div>
-                <button id="custom-vibrate" class="vibrate-btn primary">
-                    <span class="btn-icon">⚡</span>
-                    <span class="btn-text">カスタム振動を実行</span>
-                </button>
-            </section>
-
-            <!-- パターンエディタ -->
-            <section class="section">
-                <h2>パターンエディタ</h2>
-                <p class="help-text">カンマ区切りで振動と休止のパターンを入力（例: 100,50,100,50,200）</p>
-                <div class="pattern-editor">
-                    <input type="text" id="pattern-input" placeholder="100,50,100,50,200" value="100,50,100,50,200">
-
-                    <!-- パターンビジュアライザー -->
-                    <div id="pattern-visualizer" class="pattern-visualizer">
-                        <div class="visualizer-timeline"></div>
-                        <div class="visualizer-info">
-                            <span id="total-duration">総時間: 400ms</span>
-                        </div>
-                    </div>
-
-                    <div class="pattern-actions">
-                        <button id="pattern-vibrate" class="vibrate-btn">
-                            <span class="btn-icon">🎵</span>
-                            <span class="btn-text">パターンを実行</span>
-                        </button>
-                        <button id="save-pattern" class="save-pattern-btn">
-                            <span class="btn-icon">💾</span>
-                            <span class="btn-text">パターンを保存</span>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- パターンライブラリ -->
-            <section class="section" id="library-section" style="display: none;">
-                <h2>保存済みパターン</h2>
-                <div id="saved-patterns" class="saved-patterns"></div>
-            </section>
-
             <!-- リピート/ループ設定 -->
             <section class="section">
-                <h2>リピート/ループ設定</h2>
+                <h2>⚙️ リピート/ループ設定</h2>
+                <p class="help-text">すべての振動パターンに適用されます</p>
                 <div class="repeat-controls">
                     <div class="toggle-container">
                         <label class="toggle-label">
@@ -199,6 +150,56 @@
                     <span class="btn-icon">⏹️</span>
                     <span class="btn-text">振動を停止</span>
                 </button>
+            </section>
+
+            <!-- カスタムパターン -->
+            <section class="section">
+                <h2>カスタム設定</h2>
+                <div class="custom-control">
+                    <label for="duration">振動時間（ミリ秒）</label>
+                    <div class="slider-container">
+                        <input type="range" id="duration" min="10" max="1000" value="200" step="10">
+                        <span id="duration-value">200ms</span>
+                    </div>
+                </div>
+                <button id="custom-vibrate" class="vibrate-btn primary full-width">
+                    <span class="btn-icon">⚡</span>
+                    <span class="btn-text">カスタム振動を実行</span>
+                </button>
+            </section>
+
+            <!-- パターンエディタ -->
+            <section class="section">
+                <h2>パターンエディタ</h2>
+                <p class="help-text">カンマ区切りで振動と休止のパターンを入力（例: 100,50,100,50,200）</p>
+                <div class="pattern-editor">
+                    <input type="text" id="pattern-input" placeholder="100,50,100,50,200" value="100,50,100,50,200">
+
+                    <!-- パターンビジュアライザー -->
+                    <div id="pattern-visualizer" class="pattern-visualizer">
+                        <div class="visualizer-timeline"></div>
+                        <div class="visualizer-info">
+                            <span id="total-duration">総時間: 400ms</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-actions">
+                        <button id="pattern-vibrate" class="vibrate-btn primary full-width">
+                            <span class="btn-icon">🎵</span>
+                            <span class="btn-text">パターンを実行</span>
+                        </button>
+                        <button id="save-pattern" class="save-pattern-btn full-width">
+                            <span class="btn-icon">💾</span>
+                            <span class="btn-text">パターンを保存</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- パターンライブラリ -->
+            <section class="section" id="library-section" style="display: none;">
+                <h2>保存済みパターン</h2>
+                <div id="saved-patterns" class="saved-patterns"></div>
             </section>
 
             <!-- 共有機能 -->
