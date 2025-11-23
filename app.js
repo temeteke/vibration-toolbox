@@ -69,9 +69,8 @@ function init() {
 // バイブレーションサポート確認
 function checkVibrationSupport() {
     if ('vibrate' in navigator) {
-        statusCard.classList.add('supported');
-        statusCard.querySelector('.status-icon').textContent = '✅';
-        statusText.textContent = 'バイブレーション機能が利用可能です';
+        // バイブレーション利用可能時はステータスカードを非表示
+        statusCard.style.display = 'none';
     } else {
         statusCard.classList.add('not-supported');
         statusCard.querySelector('.status-icon').textContent = '❌';
