@@ -410,6 +410,10 @@ input[type="range"]::-moz-range-thumb {
     height: 20px;
 }
 
+[data-theme="dark"] .visualizer-bar.pause {
+    color: var(--text-primary);
+}
+
 .visualizer-info {
     margin-top: 0.75rem;
     display: flex;
@@ -635,6 +639,11 @@ input[type="range"]::-moz-range-thumb {
     animation: fadeIn 0.3s ease-in-out;
 }
 
+[data-theme="dark"] .share-status {
+    background: #064e3b;
+    color: #6ee7b7;
+}
+
 .success-icon {
     font-size: 1.2rem;
 }
@@ -715,6 +724,10 @@ footer {
         font-size: 1.5rem;
     }
 
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
     .button-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
@@ -722,6 +735,10 @@ footer {
 
     main {
         padding: 1rem;
+    }
+
+    .pattern-actions {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -820,6 +837,11 @@ footer {
     animation: fadeIn 0.3s ease-in-out;
 }
 
+[data-theme="dark"] .repeat-status {
+    background: #1e3a8a;
+    border-color: #60a5fa;
+}
+
 .status-indicator {
     display: flex;
     align-items: center;
@@ -834,10 +856,18 @@ footer {
     animation: blink 1.5s ease-in-out infinite;
 }
 
+[data-theme="dark"] .status-dot {
+    background: #60a5fa;
+}
+
 #repeat-status-text {
     font-weight: 600;
     color: #1e40af;
     font-size: 0.95rem;
+}
+
+[data-theme="dark"] #repeat-status-text {
+    color: #dbeafe;
 }
 
 /* アニメーション */
